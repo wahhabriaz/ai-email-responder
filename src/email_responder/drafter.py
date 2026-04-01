@@ -28,7 +28,7 @@ Original email:
 {original_email}
 ---
 
-Write only the email body. No subject line. No "Dear Claude" preamble."""
+Write only the email body. No subject line. No preamble."""
 
     client = get_client()
     p = settings.provider.lower()
@@ -40,13 +40,7 @@ Write only the email body. No subject line. No "Dear Claude" preamble."""
             messages=[{"role": "user", "content": prompt}],
         )
         return msg.content[0].text
-    elif p == "openai":
-        msg = client.chat.completions.create(
-            model=settings.model,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        return msg.choices[0].message.content
-    elif p == "groq":
+    elif p in ("openai", "groq", "ollama"):
         msg = client.chat.completions.create(
             model=settings.model,
             messages=[{"role": "user", "content": prompt}],
